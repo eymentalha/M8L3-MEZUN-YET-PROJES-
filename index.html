@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İklim Değişikliği - Full Paket</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(120deg, #00c6ff, #0072ff);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: bold;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .clock {
+            margin: 10px 0;
+            font-size: 1.5em;
+        }
+
+        .content {
+            max-width: 800px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-top: 20px;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        h2 {
+            color: #ffea00;
+            font-size: 2em;
+        }
+
+        p, ul {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        ul {
+            text-align: left;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            margin: 0 10px;
+            border: none;
+            border-radius: 10px;
+            background-color: #ffea00;
+            color: black;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            background-color: #ffd500;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        input {
+            padding: 8px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: none;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>İklim Değişikliği</header>
+    <div class="clock" id="clock"></div>
+
+    <div class="content" id="content"></div>
+
+    <div class="buttons">
+        <button onclick="previousPage()">⬅ Geri</button>
+        <button onclick="nextPage()">İleri ➡</button>
+    </div>
+
+    <script>
+        let page = 1;
+
+        const pages = [
+            `
+            <h2>🌍 İklim Değişikliği Nedir?</h2>
+            <p>İklim değişikliği, dünya genelindeki sıcaklık ve hava koşullarındaki uzun süreli değişikliktir. 
+            Bunun en büyük sebebi fosil yakıtların aşırı kullanılmasıdır. Karbondioksit ve diğer sera gazları atmosferde birikerek dünyayı ısıtır.</p>
+            <ul>
+                <li>Kuraklık</li>
+                <li>Seller</li>
+                <li>Orman yangınları</li>
+                <li>Buzulların erimesi</li>
+            </ul>
+            `,
+            `
+            <h2>☀️ Yenilenebilir Enerji Kaynakları</h2>
+            <p>Yenilenebilir enerji kaynakları, iklim değişikliğiyle mücadelede en güçlü silahlarımızdan biridir.</p>
+            <ul>
+                <li>Güneş Enerjisi ☀️</li>
+                <li>Rüzgar Enerjisi 🌬️</li>
+                <li>Hidroelektrik Enerji 💧</li>
+                <li>Jeotermal Enerji 🌋</li>
+                <li>Biyokütle Enerjisi 🍃</li>
+            </ul>
+            `,
+            `
+            <h2>💪 Ne Yapmalıyız?</h2>
+            <ul>
+                <li>Fosil yakıtları azaltmalıyız.</li>
+                <li>Yenilenebilir enerji kullanmalıyız.</li>
+                <li>Ağaç dikmeliyiz.</li>
+                <li>Geri dönüşüme önem vermeliyiz.</li>
+                <li>Su ve enerji tasarrufu yapmalıyız.</li>
+            </ul>
+            <p>Unutma, küçük bir değişiklik büyük bir etki yaratır. Geleceğimiz için harekete geç!</p>
+            `,
+            `
+            <h2>🎥 Video - Test - Soru Cevap</h2>
+            <video width="100%" controls>
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                Tarayıcınız video desteklemiyor.
+            </video>
+            <h3>Test: İklim Değişikliğine Karşı Neler Yapabiliriz?</h3>
+            <p>Soru: En çok hangi enerji kaynağı çevre dostudur?</p>
+            <input type="text" id="answer" placeholder="Cevabını yaz..."><br>
+            <button onclick="checkAnswer()">Cevabı Kontrol Et</button>
+            <p id="result"></p>
+            `
+        ];
+
+        function showPage() {
+            document.getElementById('content').innerHTML = pages[page - 1];
+        }
+
+        function nextPage() {
+            if (page < pages.length) {
+                page++;
+                showPage();
+            }
+        }
+
+        function previousPage() {
+            if (page > 1) {
+                page--;
+                showPage();
+            }
+        }
+
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours().toString().padStart(2, '0');
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function checkAnswer() {
+            let answer = document.getElementById('answer').value.toLowerCase();
+            let result = document.getElementById('result');
+            if (answer.includes('güneş')) {
+                result.textContent = 'Tebrikler! Doğru cevap 🎉';
+            } else {
+                result.textContent = 'Yanlış cevap, bir daha dene!';
+            }
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+        showPage();
+    </script>
+
+</body>
+
+</html>
